@@ -15,6 +15,7 @@ class Board:
         else:
             self.kittens.add(kitten)
 
+    # TODO: Test json deserialization
     @staticmethod
     def from_json(dictionary):
         return Board(dictionary["height"], dictionary["width"])
