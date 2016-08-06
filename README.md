@@ -1,1 +1,1 @@
-# kitten-wars-server
+# Kitten Wars (Server)
