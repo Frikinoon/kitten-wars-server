@@ -22,9 +22,9 @@ def read_config():
 
 def init():
     logging.basicConfig(level=logging.INFO)
-    start_server = websockets.serve(hello, '0.0.0.0', 8080)
+    start_server = websockets.serve(process_connection, '0.0.0.0', 8080)
     asyncio.get_event_loop().run_until_complete(start_server)
-
+    asyncio.get_event_loop().run_forever()
     return True
 
 def stop():
@@ -35,21 +35,19 @@ def start_lobby():
 
     return True
 
-async def hello(websocket, path):
+def process_message(message):
+    answer = "rcvd"
+
+    return answer
+
+async def process_connection(websocket, path):
     while True:
         try:
-            echo = await websocket.recv()
-            if path == "/board":
-                await websocket.send("Board created!")
-            elif path == "/player":
-                await websocket.send("Registered!")
-            elif path == "/start":
-                await websocket.send("Started!")
-            elif path == "/move":
-                await websocket.send("Moved!")
-            else:
-                await websocket.send("Path: {}  Msg: {}".format(path, echo))
-            logging.info("Message received: {} -> {}".format(path, echo))
+            msg = await websocket.recv()
+            answer = process_message(msg)
+            await websocket.send("Path: {}  Msg: {}".format(path, answer))
+
+            logging.info("Message received: {} -> {}".format(path, msg))
         except websockets.exceptions.ConnectionClosed as ex:
             logging.info("Connection Closed with code {}".format(ex.code))
             break
