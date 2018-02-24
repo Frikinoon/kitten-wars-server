@@ -7,6 +7,10 @@ import logging
 import time
 import argparse as PRS
 
+import json
+import jsonpickle
+
+import domain.messages as MSG
 
 def main():
     init()
@@ -37,6 +41,8 @@ def start_lobby():
 
 def process_message(message):
     answer = "rcvd"
+    if not MSG.is_message(message):
+        answer = MSG.UnintelligibleMessage()
 
     return answer
 
@@ -45,7 +51,8 @@ async def process_connection(websocket, path):
         try:
             msg = await websocket.recv()
             answer = process_message(msg)
-            await websocket.send("Path: {}  Msg: {}".format(path, answer))
+            answer_json = json.dumps(answer, default=lambda o: o.__dict__)
+            await websocket.send("Path: {}  Msg: {}".format(path, answer_json))
 
             logging.info("Message received: {} -> {}".format(path, msg))
         except websockets.exceptions.ConnectionClosed as ex:
