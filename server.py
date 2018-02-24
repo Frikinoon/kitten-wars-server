@@ -5,6 +5,7 @@ import websockets
 import logging
 
 import time
+import argparse as PRS
 
 
 def main():
@@ -13,6 +14,9 @@ def main():
     return 0
 
 def read_config():
+    parser = PRS.ArgumentParser()
+    parser.add_argument("-w", "--width", help="Board width.")
+    parser.add_argument("-h", "--height", help="Board height.")
 
     return True
 
