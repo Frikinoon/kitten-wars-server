@@ -5,6 +5,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
+
 async def hello(websocket, path):
     while True:
         try:
