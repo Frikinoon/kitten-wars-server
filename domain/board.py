@@ -22,7 +22,7 @@ class BoardSpec():
 
     @staticmethod
     def from_json(dictionary):
-        return Board(dictionary["height"], dictionary["width"])
+        return BoardSpec(dictionary["height"], dictionary["width"])
 
 class KittenAlreadyPlayingException(Exception):
     pass
